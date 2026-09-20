@@ -4,7 +4,7 @@
 
 ## Why
 
-Most video anomaly/danger detection systems either rely on task-specific trained classifiers (fast, but narrow and require labeled data per event type) or cloud VLM APIs (flexible, but not privacy-preserving or real-time on-device). This project explores the middle ground: a small, quantized, open-weight VLM running entirely on a local GPU, producing structured, human-readable scene descriptions plus a lightweight danger classification — with an eye toward robotics perception and surveillance applications where on-device inference matters.
+Most video anomaly/danger detection systems either rely on task-specific trained classifiers (fast, but narrow and require labeled data per event type) or cloud VLM APIs (flexible, but not privacy-preserving or real-time on-device). This project explores the middle ground: a small, quantized, open-weight VLM running entirely on a local GPU, producing structured, human-readable scene descriptions plus a lightweight danger classification — with an eye toward robotics perception applications where on-device inference matters.
 
 ## How it works
 
