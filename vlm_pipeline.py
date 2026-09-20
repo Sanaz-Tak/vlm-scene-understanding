@@ -1,3 +1,5 @@
+import os
+import platform
 import torch
 import subprocess
 import time
@@ -8,7 +10,14 @@ from transformers import AutoProcessor, AutoModelForImageTextToText, BitsAndByte
 
 
 # ── Config ────────────────────────────────────────────────────────────────────
-DEVICE_NAME      = "Logi C615 HD WebCam"
+# Camera device identifier — this varies by OS and machine, so set it via the
+# CAMERA_DEVICE environment variable rather than hardcoding it here:
+#   Windows : the device name from `ffmpeg -list_devices true -f dshow -i dummy`
+#             e.g. CAMERA_DEVICE="HD Webcam"
+#   Linux   : the device path, e.g. CAMERA_DEVICE="/dev/video0"
+#   macOS   : the device index from `ffmpeg -f avfoundation -list_devices true -i ""`
+#             e.g. CAMERA_DEVICE="0"
+DEVICE_NAME      = os.environ.get("CAMERA_DEVICE", "0")
 CLIP_DURATION    = 3        # seconds per clip
 MAX_NEW_TOKENS   = 200
 LOOP_COUNT       = None     # set to an int to limit iterations, or None to run forever
@@ -28,14 +37,15 @@ SIMPLE_PROMPT = 'Reply with ONLY this JSON, no other text: {"danger_detected": f
 
 
 def capture_clip(device_name: str, output_path: str, seconds: int) -> float:
-    """Capture a clip and return capture duration in seconds."""
+    """Capture a clip and return capture duration in seconds. Cross-platform via ffmpeg."""
     t0 = time.perf_counter()
-    cmd = [
-        "ffmpeg.exe", "-y",
-        "-f", "dshow", "-i", f"video={device_name}",
-        "-t", str(seconds),
-        output_path,
-    ]
+    system = platform.system()
+    if system == "Windows":
+        cmd = ["ffmpeg", "-y", "-f", "dshow", "-i", f"video={device_name}", "-t", str(seconds), output_path]
+    elif system == "Darwin":
+        cmd = ["ffmpeg", "-y", "-f", "avfoundation", "-i", device_name, "-t", str(seconds), output_path]
+    else:  # Linux
+        cmd = ["ffmpeg", "-y", "-f", "v4l2", "-i", device_name, "-t", str(seconds), output_path]
     result = subprocess.run(cmd, capture_output=True, text=True)
     elapsed = time.perf_counter() - t0
     if result.returncode != 0:

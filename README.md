@@ -16,10 +16,6 @@ Most video anomaly/danger detection systems either rely on task-specific trained
 4. **Parsing + retry** — extracts the JSON from the model's raw output; if parsing fails, retries once with a simplified prompt.
 5. **Loop** — repeats continuously, logging per-iteration timing (capture time, inference time) and a running summary (skip rate, retry rate, parse-failure rate, average cycle time).
 
-## Hardware
-
-Developed and tested on an **NVIDIA RTX 4060** (8GB VRAM), using 4-bit quantization to fit the 3B-parameter model comfortably. The same approach is intended to be portable to edge devices like the NVIDIA Jetson Orin for actual robotics deployment.
-
 ## Current limitations
 
 This is being published in-progress, deliberately, as a snapshot of an ongoing research effort:
@@ -34,19 +30,22 @@ This is being published in-progress, deliberately, as a snapshot of an ongoing r
 pip install -r requirements.txt
 ```
 
-You'll also need `ffmpeg` installed and available on your `PATH`, and a webcam accessible to it. Update `DEVICE_NAME` in `vlm_pipeline.py` to match your camera (find yours with `ffmpeg -list_devices true -f dshow -i dummy` on Windows, or `v4l2-ctl --list-devices` on Linux).
+You'll also need `ffmpeg` installed and available on your `PATH`, and a webcam accessible to it. Set the `CAMERA_DEVICE` environment variable to match your camera:
+
+```bash
+# Windows — find your device name with: ffmpeg -list_devices true -f dshow -i dummy
+set CAMERA_DEVICE=HD Webcam
+
+# Linux — typically /dev/video0
+export CAMERA_DEVICE=/dev/video0
+
+# macOS — find your device index with: ffmpeg -f avfoundation -list_devices true -i ""
+export CAMERA_DEVICE=0
+```
 
 ```bash
 python vlm_pipeline.py
 ```
-
-## Roadmap
-
-- [ ] Reduce per-clip frame count for faster inference (targeting sub-5s cycle time)
-- [ ] Evaluate on a public anomaly-detection benchmark (UCF-Crime / ShanghaiTech)
-- [ ] Port to NVIDIA Jetson Orin for embedded/robotics deployment
-- [ ] Compare structured-JSON prompting vs. free-form description + separate classifier
-- [ ] Write up results for submission to ICRA or IROS 2027
 
 ## Author
 
