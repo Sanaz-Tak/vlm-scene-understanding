@@ -1,0 +1,20 @@
+# Captured video clips
+*.mp4
+*.avi
+clip.mp4
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+
+# Model caches
+.cache/
+*.bin
+*.safetensors
+
+# OS/editor
+.DS_Store
+.vscode/
