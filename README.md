@@ -16,8 +16,6 @@ Most video anomaly/danger detection systems either rely on task-specific trained
 
 ## Current limitations
 
-This is being published in-progress, deliberately, as a snapshot of an ongoing research effort:
-
 - **Inference latency (~15–55s per 3-second clip)** is far from real-time. The main driver is the number of frames the model processes per clip; reducing frame count via the model's native video-sampling controls is the next optimization target.
 - **Structured JSON output is not fully reliable** at 4-bit quantization on a 3B model — the retry-with-simplified-prompt mechanism recovers most failures, but a more robust output strategy (e.g., constrained decoding, or decoupling scene description from a lightweight keyword/semantic danger classifier) is under evaluation.
 - **No formal evaluation yet** against a labeled dataset (e.g., UCF-Crime, ShanghaiTech). Quantitative precision/recall numbers are a near-term goal.
