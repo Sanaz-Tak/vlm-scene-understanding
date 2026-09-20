@@ -1,7 +1,5 @@
 # Real-Time Scene Understanding with Vision-Language Models
 
-A webcam-based perception pipeline that uses [Qwen2.5-VL-3B-Instruct](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct) to continuously describe a live scene and flag potentially dangerous events (fights, fires, accidents, medical emergencies) — aimed at robotics perception and surveillance use cases.
-
 **Status: early-stage / actively developed.** This is a solo research project exploring whether a small, locally-run VLM can do useful real-time scene understanding on consumer GPU hardware. It is not yet a finished system — see [Current Limitations](#current-limitations) below.
 
 ## Why
