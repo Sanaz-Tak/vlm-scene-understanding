@@ -45,7 +45,7 @@ python vlm_pipeline.py
 
 ## Author
 
-**Sanaz M. Takaghaj, PhD** — Assistant Teaching Professor, Penn State. [Portfolio](https://sanaz-tak.github.io/sanaz/) · [Google Scholar](https://scholar.google.com/citations?hl=en&user=IcEFxs4AAAAJ)
+**Sanaz M. Takaghaj**
 
 ## License
 
